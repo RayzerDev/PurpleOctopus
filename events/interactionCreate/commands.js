@@ -10,13 +10,13 @@ module.exports = {
                 try {
                     console.log(`${client.Func.LogDate()}La commande ${interaction.commandName} a été executée par ${interaction.member.user.username}`.blue)
                     await command.execute(interaction, client);
-                    const channel = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
+                    const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
                     const Embed = new MessageEmbed()
                         .setColor('#4682B4')
                         .setTitle('Commands Manager')
                         .setDescription(`La commande ${interaction.commandName} a été executée par ${interaction.member.user.username}`)
                         .setTimestamp()
-                    channel.send({embeds: [Embed]})
+                    channel_logs.send({embeds: [Embed]})
                 } 
                 
                 catch (error) {

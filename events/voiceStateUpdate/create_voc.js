@@ -17,13 +17,13 @@ module.exports = {
                 client.database.query('INSERT INTO ' + client.config.MySQL.tables.VocalChannel + ` VALUES(${channel.id},${newState.member.id})`)
                 newState.setChannel(channel)
                 console.log(`${client.Func.LogDate()}Un nouveau Vocal a été créé par ${newState.member.user.username} !`.cyan)
-                const channel = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
+                const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
                 const Embed = new MessageEmbed()
                     .setColor('#00FFFF')
                     .setTitle('Vocals Manager')
                     .setDescription(`Le salon ${vocal_name} a été créé !`)
                     .setTimestamp()
-                channel.send({embeds: [Embed]})
+                channel_logs.send({embeds: [Embed]})
             })
         }
 	},
