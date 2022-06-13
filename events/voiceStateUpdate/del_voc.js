@@ -1,3 +1,5 @@
+const {MessageEmbed} = require('discord.js')
+
 module.exports = {
 	name: 'voiceStateUpdate',
 	once: false,
@@ -15,7 +17,7 @@ module.exports = {
                             const Embed = new MessageEmbed()
                                 .setColor('#00FFFF')
                                 .setTitle('Vocals Manager')
-                                .setDescription(`Le salon vocal de ${client.users.cache.get(voc.id_author).username} a été supprimé`)
+                                .setDescription(`Le salon Vocal de ${client.users.cache.get(voc.id_author).username} a été supprimé`)
                                 .setTimestamp()
                             channel_logs.send({embeds: [Embed]})
                     }
