@@ -8,3 +8,7 @@ config.json
 # NPM
 package.json
 node_modules/
+
+
+# Images
+images/*
