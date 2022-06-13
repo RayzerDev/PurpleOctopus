@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 module.exports = (directory, client) => {
-    // Slash Commands
+    // Prise en compte de toutes les commandes
     const commands = [];
     client.commands = new Collection();
     const commandsfoldersPath = path.join(directory, 'commands');
@@ -22,6 +22,8 @@ module.exports = (directory, client) => {
             client.commands.set(command.data.name, command);
         }
     }
+
+    // Enregistrement des commandes à Discord
     const rest = new REST({ version: '9' }).setToken(client.config.Discord.IDToken.PurpleOctopus);
     rest.put(Routes.applicationCommands(client.config.Discord.BotID.PurpleOctopus), { body: commands })
         .then(() => console.log(`${client.Func.LogDate()}Les commandes ont été mis à jour !`.inverse))

@@ -2,9 +2,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 module.exports = (directory,client) => {
+    
     const eventsFoldersPath = path.join(directory, 'events');
     const eventFolders = fs.readdirSync(eventsFoldersPath);
-
 
     for (const eventfolder of eventFolders){
         const eventsPath = path.join(eventsFoldersPath, eventfolder);
