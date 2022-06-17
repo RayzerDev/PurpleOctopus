@@ -11,6 +11,10 @@ module.exports = {
         
         client.database.query(sql,[interaction.member.id], function(err,rslt){
             rslt.forEach(user => {
+                interaction.reply({
+                    content : "Arrêt du bot en cours ...", 
+                    ephemeral: true
+                });
                 exec('pm2 stop 0', (err, output) => {
                     if (err) {
                         return interaction.reply({
@@ -19,10 +23,6 @@ module.exports = {
                         });
                     
                     }
-                    return interaction.reply({
-                        content : output, 
-                        ephemeral: true
-                    });
                 })
             })
 

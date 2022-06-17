@@ -11,18 +11,18 @@ module.exports = {
         
         client.database.query(sql,[interaction.member.id], function(err,rslt){
             rslt.forEach(user => {
+                interaction.reply({
+                    content : "Redémarrage en cours du bot ...", 
+                    ephemeral: true
+                });
+                
                 exec('pm2 restart 0', (err, output) => {
                     if (err) {
                         return interaction.reply({
                             content : "Erreur dans le le redémarrage : " + err, 
                             ephemeral: true
                         });
-                    
                     }
-                    return interaction.reply({
-                        content : output, 
-                        ephemeral: true
-                    });
                 })
             })
 
