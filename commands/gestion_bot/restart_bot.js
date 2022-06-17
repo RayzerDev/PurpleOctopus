@@ -3,8 +3,8 @@ const { exec } = require('node:child_process')
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('stop_bot')
-		.setDescription('Permets de stopper le bot'),
+		.setName('restart_bot')
+		.setDescription('Permets de redémarrer le bot'),
 		
 	async execute(interaction, client) {
         const sql = 'SELECT * FROM ' + client.config.MySQL.tables.User + ' WHERE id_user = ? AND admin_lvl = 3'
