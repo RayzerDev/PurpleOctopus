@@ -11,8 +11,8 @@ module.exports = {
 
 	async execute(interaction, client) {
         const id_coc = interaction.options.getString('id_clash_of_clans');
-        if (id_coc[0] != '#' || id_coc.length != 9) return interaction.reply({
-            content : "Executez la commande de cette manière : '/coc_register #12345678' !", 
+        if (id_coc[0] != '#' || id_coc.length > 10) return interaction.reply({
+            content : "Executez la commande de cette manière : '/coc_register #123456789' !", 
             ephemeral: true
         });
 
@@ -26,7 +26,7 @@ module.exports = {
 
                 console.log(`${client.Func.LogDate()}L'ID Clash Of Clans de ${interaction.member.user.username} a été mis à jour !`.green)
                 return interaction.reply({
-                    content : "Votre ID Clash Of Clans a bien été enregistré !", 
+                    content : "Votre ID Clash Of Clans a bien été enregistré et mis à jour !", 
                     ephemeral: true
                 });
 
@@ -37,7 +37,7 @@ module.exports = {
                 client.database.query(sql, [interaction.member.id, id_coc])
                 console.log(`${client.Func.LogDate()}Le joueur ${interaction.member.user.username} ainsi que son ID Clash Of Clans a bien été enregistré !`.green)
                 return interaction.reply({
-                    content : "Vous êtes enregistré dans la BDD ainsi que votre ID Clash Of Clans !", 
+                    content : "Vous êtes enregistré dans la BDD avec votre ID Clash Of Clans !", 
                     ephemeral: true
                 });
             }
