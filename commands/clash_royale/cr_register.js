@@ -11,7 +11,7 @@ module.exports = {
 
 	async execute(interaction, client) {
         const id_cr = interaction.options.getString('id_clash_royale');
-        if (id_cr[0] != '#' || id_cr.length != 9) return interaction.reply({
+        if (id_cr[0] != '#' || id_cr.length > 10) return interaction.reply({
             content : "Executez la commande de cette manière : '/cr_register #12345678' !", 
             ephemeral: true
         });
