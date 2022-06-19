@@ -6,6 +6,7 @@ module.exports = {
 	async execute(member, client) {
         const channel_enter = await client.channels.fetch(client.config.Discord.IDSalonServer.Atterissage);
         const user = await client.users.fetch(member.id);
+        
         const embed_enter = new MessageEmbed()
             .setTitle("Arrivée d'un nouveau membre !")
             .setColor(0x60D15B)

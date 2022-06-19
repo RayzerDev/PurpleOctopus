@@ -9,8 +9,8 @@ module.exports = {
 		
 	async execute(interaction, client) {
 		const emojis = client.emojis.cache
-		const sql = 'SELECT * FROM ' + client.config.MySQL.tables.User + ' WHERE id_user = ' + interaction.member.id
-		client.database.query(sql, function(err,rslt){
+		const sql = "SELECT * FROM " + client.config.MySQL.tables.User + " WHERE id_user = ? AND id_cr != 'NULL'"
+		client.database.query(sql,[interaction.member.id], function(err,rslt){
             rslt.forEach(user => {
 				let rslt_json 
 
