@@ -23,6 +23,9 @@ client.handlers.events(__dirname, client)
 client.handlers.buttons = require('./handlers/buttons')
 client.handlers.buttons(__dirname, client)
 
+client.handlers.selectmenus = require('./handlers/selectmenus')
+client.handlers.selectmenus(__dirname, client)
+
 // Connexion à la base de donnée
 client.database = client.Func.ConnecttoBDD(client.config.MySQL.host,
     client.config.MySQL.port,
