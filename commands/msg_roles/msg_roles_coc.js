@@ -12,10 +12,11 @@ module.exports = {
         client.database.query(sql,[interaction.member.id], function(err,rslt){
             if(rslt[0]){
                 const cocEmbed = new MessageEmbed()
-                    .setTitle('Clash Of Clans')
+                    .setTitle('Le Clan Golazo sur Clash Of CLans ')
                     .setDescription(`Appuyez sur le bouton "Ajouter le rôle" afin de vérifier que vous êtes bien dans le clan, pour vous donner le rôle coc ! \n
-                    Si vous n'êtes pas enregsitré dans la base de donnée, faîtes la commande /coc_register avec votre ID Clash Of Clans pour pouvoir vosu associer avec le seveur !`)
-                    .setColor(0x3e5bc5)
+                    Si vous n'êtes pas enregsitré dans la base de donnée, faîtes la commande /coc_register avec votre ID Clash Of Clans pour pouvoir vosu associer avec le seveur ! \n
+                    Si vous n'êtes pas dans le clan, cliquez sur le lien du Clan pour pouvoir rejoindre celui-ci !`)
+                    .setColor(0xDC143C)
                     .setThumbnail(`https://api-assets.clashofclans.com/badges/512/jkRzaPicUqoJ0KtXxOioRDMT7sVoB0sMd6KY0AIQYKs.png`)
                 
                 const row = new MessageActionRow()
@@ -24,6 +25,10 @@ module.exports = {
                             .setCustomId('check_role_coc')
                             .setLabel('Ajouter le rôle')
                             .setStyle('PRIMARY'),
+                        new MessageButton()
+                            .setStyle('LINK')
+                            .setURL('https://link.clashofclans.com/fr?action=OpenClanProfile&tag=2CV2P82C')
+                            .setLabel('Lien du Clan')
                     );
             
                 interaction.channel.send({
