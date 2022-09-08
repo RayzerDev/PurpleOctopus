@@ -3,12 +3,14 @@ module.exports = {
 	name: 'roles_grades',
 
 	async execute(interaction, client) {
-        for(role of interaction.values) {
+        for(role of interaction.values) {		    
             if (interaction.member.roles.resolve(role)){
                 interaction.member.roles.remove(role);
             }
             else{
-                interaction.member.roles.add(role);
+		if (interaction.member.id != "690177619228229688"){
+                    interaction.member.roles.add(role);
+		}
             }
         }
 
