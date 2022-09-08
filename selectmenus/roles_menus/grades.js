@@ -8,11 +8,14 @@ module.exports = {
                 interaction.member.roles.remove(role);
             }
             else{
-		if (interaction.member.id != "690177619228229688"){
+		if (interaction.member.id != "690177619228229688" && role != "835092000696041503"){
                     interaction.member.roles.add(role);
 		}
 		else{
-		    console.log(role)
+		    interaction.reply({
+		        content:"Cheh tu peux pas être développeur KIKI",
+		        ephemeral:true
+		    })
 		}
             }
         }
