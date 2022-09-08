@@ -11,6 +11,9 @@ module.exports = {
 		if (interaction.member.id != "690177619228229688"){
                     interaction.member.roles.add(role);
 		}
+		else{
+		    console.log(role)
+		}
             }
         }
 
