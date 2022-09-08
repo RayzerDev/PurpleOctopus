@@ -11,6 +11,7 @@ module.exports = {
                 parent: client.config.Discord.IDCategorie.Vocal,
                 permissionOverwrites: [{ 
                     id: newState.id,
+                    deny: ['VIEW_CHANNEL'],
                 }]
             })
     
