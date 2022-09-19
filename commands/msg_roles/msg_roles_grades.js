@@ -17,7 +17,7 @@ module.exports = {
                     rslt.forEach(grade => {
                         l_options.push({
                         
-                            emoji: grade.emoji,
+                            emoji: client.emojis.cache.get(grade.emoji),
                             label: grade.name,
                             description: grade.description,
                             value: grade.id_role,
