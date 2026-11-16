@@ -8,6 +8,11 @@ module.exports = {
         const command = client.commands.get(interaction.commandName);
         if (!command) return;
 
+        const wait = command.cooldown ? client.Func.Cooldown(command.data.name, interaction.user.id, command.cooldown) : 0;
+        if (wait) {
+            return interaction.reply({ content: `Patientez ${wait} s avant de relancer cette commande.`, flags: MessageFlags.Ephemeral });
+        }
+
         try {
             console.log(`${client.Func.LogDate()}La commande ${interaction.commandName} a été executée par ${interaction.user.username}`.blue);
             await command.execute(interaction, client);

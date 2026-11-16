@@ -2,6 +2,7 @@ const { MessageFlags } = require('discord.js');
 
 module.exports = {
 	name: 'check_role_coc',
+	cooldown: 10,
 
 	async execute(interaction, client) {
         const sql = 'SELECT id_coc FROM ' + client.config.MySQL.tables.User + " WHERE id_user = ? AND id_coc IS NOT NULL AND id_coc != 'NULL' LIMIT 1";

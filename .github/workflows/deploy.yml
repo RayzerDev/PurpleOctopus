@@ -30,6 +30,8 @@ jobs:
         run: npm ci --omit=dev --ignore-scripts
       - name: Syntax check
         run: git ls-files '*.js' | xargs -n1 node --check
+      - name: Tests
+        run: npm test
       - name: Known vulnerabilities in dependencies
         run: npm audit --omit=dev --audit-level=critical
   deploy:

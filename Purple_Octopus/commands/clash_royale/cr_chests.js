@@ -4,6 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('cr_chests')
 		.setDescription('Si vous êtes enregistré, vous pourrez visualiser vos prochains coffres Clash Royale.'),
+	cooldown: 10,
 
 	async execute(interaction, client) {
 		const sql = 'SELECT id_cr FROM ' + client.config.MySQL.tables.User + " WHERE id_user = ? AND id_cr IS NOT NULL AND id_cr != 'NULL' LIMIT 1";

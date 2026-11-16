@@ -16,7 +16,8 @@ client.config = require('./config.json');
 client.Func = {};
 client.Func.LogDate = require('../function/LogDate');
 client.Func.ConnecttoBDD = require('../function/ConnectBDD');
-client.Func.SendLog = (title, color, description) => require('../function/SendLog')(client, title, color, description);
+client.Func.SendLog = (title, color, description, channelId) => require('../function/SendLog')(client, title, color, description, channelId);
+client.Func.Cooldown = require('../function/Cooldown');
 client.Func.ClashApi = require('../function/ClashApi');
 
 // Une erreur imprevue est ecrite dans les logs au lieu d'arreter le bot.

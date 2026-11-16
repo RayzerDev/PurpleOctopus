@@ -8,6 +8,11 @@ module.exports = {
         const button = client.buttons.get(interaction.customId);
         if (!button) return;
 
+        const wait = button.cooldown ? client.Func.Cooldown(button.name, interaction.user.id, button.cooldown) : 0;
+        if (wait) {
+            return interaction.reply({ content: `Patientez ${wait} s avant de recliquer.`, flags: MessageFlags.Ephemeral });
+        }
+
         try {
             console.log(`${client.Func.LogDate()}Le bouton ${button.name} a été executée par ${interaction.user.username}`.blue);
             await button.execute(interaction, client);
