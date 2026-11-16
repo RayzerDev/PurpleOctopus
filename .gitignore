@@ -1,0 +1,9 @@
+# Secrets : jamais dans le depot (il est public)
+config.json
+*.env
+test_bdd/inf_bdd.json
+db/init.sql
+
+# Dependances et editeur
+node_modules/
+.idea/
