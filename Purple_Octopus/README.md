@@ -12,4 +12,4 @@ Plusieurs fonctionnalités ne sont pas encore déployée !
   - jetons du bot : `/opt/purple-octopus/config.json` sur le serveur, monté en lecture seule ;
   - mots de passe MariaDB : variable Nomad `nomad/jobs/purple-octopus` (`MARIADB_ROOT_PASSWORD`, `MARIADB_PASSWORD`).
 
-Pour déployer le dernier commit : `./deploy.sh` depuis Git Bash, à la racine du dépôt.
+Déploiement automatique : chaque push sur `master` lance le workflow `Deploy`. Il vérifie la syntaxe sur GitHub, puis lance `deploy.sh` sur le runner `purple-prod` du serveur : construction de l'image, puis job Nomad. On peut aussi le relancer à la main depuis l'onglet Actions (« Run workflow »).
