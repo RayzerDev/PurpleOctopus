@@ -1,17 +1,10 @@
-const { MessageEmbed } = require('discord.js');
+const { Events } = require('discord.js');
 
 module.exports = {
-	name: 'ready',
+	name: Events.ClientReady,
 	once: true,
-	execute(client) {
-        const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
-        const Embed = new MessageEmbed()
-            .setColor('#4FAB4F')
-            .setTitle('Information de PurpleOctopus')
-            .setDescription('Le bot vient de redémarrer !')
-            .setTimestamp()
-        channel_logs.send({embeds: [Embed]})
-    
+	async execute(client) {
+        await client.Func.SendLog('Information de PurpleOctopus', '#4FAB4F', 'Le bot vient de redémarrer !');
         console.log(`${client.Func.LogDate()}Bot lancé !`.inverse);
 	},
 };

@@ -7,16 +7,14 @@ module.exports = (directory, client) => {
     const selectmenusfoldersPath = path.join(directory, 'selectmenus');
     const selectmenusfolders = fs.readdirSync(selectmenusfoldersPath);
 
-    for (selectmenusfolder of selectmenusfolders){
+    for (const selectmenusfolder of selectmenusfolders) {
         const selectmenusPath = path.join(selectmenusfoldersPath, selectmenusfolder);
         const selectmenuFiles = fs.readdirSync(selectmenusPath).filter(file => file.endsWith('.js'));
 
         for (const file of selectmenuFiles) {
-
             const filePath = path.join(selectmenusPath, file);
             const selectmenu = require(filePath);
             client.selectmenus.set(selectmenu.name, selectmenu);
-
         }
     }
-}
+};

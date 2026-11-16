@@ -1,34 +1,43 @@
-# Deploie le bot sur le serveur a chaque push sur master. Tourne sur le runner
-# auto-heberge "purple-prod". Jamais declenche par une pull request : du code
+# Verifie le code a chaque push et pull request ; deploie le bot sur le serveur
+# a chaque push sur master, chaque lundi matin (reconstruction avec les
+# correctifs de l'image Node) ou a la main. Le deploiement tourne sur le runner
+# auto-heberge "purple-prod" et jamais pour une pull request : du code
 # exterieur ne peut pas atteindre le serveur (le depot est public, et les
 # workflows des contributeurs externes demandent en plus une approbation).
 name: Deploy
 on:
   push:
     branches: [master]
+  pull_request:
+  schedule:
+    # Lundi 04:45 (heure de Paris en hiver), pendant la fenetre de maintenance Gatus.
+    - cron: '45 3 * * 1'
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: deploy-prod
+  group: deploy-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm ci --omit=dev
+        run: npm ci --omit=dev --ignore-scripts
       - name: Syntax check
         run: git ls-files '*.js' | xargs -n1 node --check
+      - name: Known vulnerabilities in dependencies
+        run: npm audit --omit=dev --audit-level=critical
   deploy:
     needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
     runs-on: [self-hosted, purple-prod]
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build the image and run the Nomad job
         run: bash ./deploy.sh

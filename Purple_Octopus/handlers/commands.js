@@ -1,6 +1,4 @@
-const { Collection } = require('discord.js');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Collection, REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -11,7 +9,7 @@ module.exports = (directory, client) => {
     const commandsfoldersPath = path.join(directory, 'commands');
     const commandsfolders = fs.readdirSync(commandsfoldersPath);
 
-    for (commandsfolder of commandsfolders){
+    for (const commandsfolder of commandsfolders) {
         const commandsPath = path.join(commandsfoldersPath, commandsfolder);
         const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
@@ -24,8 +22,8 @@ module.exports = (directory, client) => {
     }
 
     // Enregistrement des commandes à Discord
-    const rest = new REST({ version: '9' }).setToken(client.config.Discord.IDToken.PurpleOctopus);
+    const rest = new REST({ version: '10' }).setToken(client.config.Discord.IDToken.PurpleOctopus);
     rest.put(Routes.applicationCommands(client.config.Discord.BotID.PurpleOctopus), { body: commands })
         .then(() => console.log(`${client.Func.LogDate()}Les commandes ont été mis à jour !`.inverse))
-        .catch(console.error);
-}
+        .catch(err => console.error(`${client.Func.LogDate()}Enregistrement des commandes impossible :`, err));
+};

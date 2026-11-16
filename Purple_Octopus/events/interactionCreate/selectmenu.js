@@ -1,29 +1,21 @@
-const {MessageEmbed} = require('discord.js')
+const { Events, MessageFlags } = require('discord.js');
+
 module.exports = {
-	name: 'interactionCreate',
+	name: Events.InteractionCreate,
 	once: false,
 	async execute(interaction, client) {
-        if (interaction.isSelectMenu()){
-            const selectmenu = client.selectmenus.get(interaction.customId);
-            if (selectmenu) {
-    
-                try {
-                    console.log(`${client.Func.LogDate()}Le menu ${selectmenu.name} a été utilisé par ${interaction.member.user.username}`.blue)
-                    await selectmenu.execute(interaction, client);
-                    const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
-                    const Embed = new MessageEmbed()
-                        .setColor('#4682B4')
-                        .setTitle('Select Menus Manager')
-                        .setDescription(`Le menu ${selectmenu.name} a été utilisé par ${interaction.member.user.username}`)
-                        .setTimestamp()
-                    channel_logs.send({embeds: [Embed]})
-                } 
-                
-                catch (error) {
-                    console.error(error);
-                    await interaction.reply({ content: "Le menu avec lequel vous avez essayé d'intéragir n'a pas pu répondre.", ephemeral: true });
-                }
-            }
+        if (!interaction.isStringSelectMenu()) return;
+        const selectmenu = client.selectmenus.get(interaction.customId);
+        if (!selectmenu) return;
+
+        try {
+            console.log(`${client.Func.LogDate()}Le menu ${selectmenu.name} a été utilisé par ${interaction.user.username}`.blue);
+            await selectmenu.execute(interaction, client);
+            client.Func.SendLog('Select Menus Manager', '#4682B4', `Le menu ${selectmenu.name} a été utilisé par ${interaction.user.username}`);
+        } catch (error) {
+            console.error(error);
+            const answer = { content: "Le menu avec lequel vous avez essayé d'intéragir n'a pas pu répondre.", flags: MessageFlags.Ephemeral };
+            await (interaction.replied || interaction.deferred ? interaction.followUp(answer) : interaction.reply(answer)).catch(() => {});
         }
 	},
 };

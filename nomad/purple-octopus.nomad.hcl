@@ -20,9 +20,8 @@ job "purple-octopus" {
       dns {
         servers = ["1.1.1.1", "8.8.8.8"]
       }
-      port "db" {
-        static = 3306
-      }
+      # Pas de port publie : le bot joint MariaDB par 127.0.0.1 dans le reseau
+      # du groupe, et la sauvegarde passe par docker exec.
     }
 
     restart {
@@ -52,7 +51,7 @@ job "purple-octopus" {
           "/opt/purple-octopus/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro",
           "/opt/purple-octopus/mysql-data:/var/lib/mysql"
         ]
-        ports = ["db"]
+        security_opt = ["no-new-privileges"]
         logging {
           type = "json-file"
           config {
@@ -82,7 +81,6 @@ EOF
       service {
         name     = "purple-octopus-db"
         provider = "nomad"
-        port     = "db"
       }
     }
 
@@ -93,6 +91,10 @@ EOF
         volumes = [
           "/opt/purple-octopus/config.json:/usr/src/app/Purple_Octopus/config.json:ro"
         ]
+        # Le bot n'ecrit rien sur disque et n'a besoin d'aucun privilege.
+        readonly_rootfs = true
+        cap_drop        = ["all"]
+        security_opt    = ["no-new-privileges"]
         logging {
           type = "json-file"
           config {
@@ -102,8 +104,9 @@ EOF
         }
       }
       resources {
-        cpu    = 256
-        memory = 128
+        cpu        = 256
+        memory     = 128
+        memory_max = 256
       }
       service {
         name     = "purple-octopus"

@@ -1,29 +1,21 @@
-const {MessageEmbed} = require('discord.js')
+const { Events, MessageFlags } = require('discord.js');
+
 module.exports = {
-	name: 'interactionCreate',
+	name: Events.InteractionCreate,
 	once: false,
 	async execute(interaction, client) {
-        if (interaction.isButton()){	
-            const button = client.buttons.get(interaction.customId);
-            if (button) {
-    
-                try {
-                    console.log(`${client.Func.LogDate()}Le bouton ${button.name} a été executée par ${interaction.member.user.username}`.blue)
-                    await button.execute(interaction, client);
-                    const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
-                    const Embed = new MessageEmbed()
-                        .setColor('#4682B4')
-                        .setTitle('Buttons Manager')
-                        .setDescription(`Le bouton ${button.name} a été executée par ${interaction.member.user.username}`)
-                        .setTimestamp()
-                    channel_logs.send({embeds: [Embed]})
-                } 
-                
-                catch (error) {
-                    console.error(error);
-                    await interaction.reply({ content: "Le bouton avec lequel vous avez essayé d'intéragir n'a pas pu répondre.", ephemeral: true });
-                }
-            }
+        if (!interaction.isButton()) return;
+        const button = client.buttons.get(interaction.customId);
+        if (!button) return;
+
+        try {
+            console.log(`${client.Func.LogDate()}Le bouton ${button.name} a été executée par ${interaction.user.username}`.blue);
+            await button.execute(interaction, client);
+            client.Func.SendLog('Buttons Manager', '#4682B4', `Le bouton ${button.name} a été executée par ${interaction.user.username}`);
+        } catch (error) {
+            console.error(error);
+            const answer = { content: "Le bouton avec lequel vous avez essayé d'intéragir n'a pas pu répondre.", flags: MessageFlags.Ephemeral };
+            await (interaction.replied || interaction.deferred ? interaction.followUp(answer) : interaction.reply(answer)).catch(() => {});
         }
 	},
 };

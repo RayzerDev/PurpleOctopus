@@ -1,32 +1,26 @@
-const {MessageEmbed} = require('discord.js')
+const { ChannelType, Events, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-	name: 'voiceStateUpdate',
+	name: Events.VoiceStateUpdate,
 	once: false,
-	async execute(oldState,newState,client) {
-        if (newState.channelId === client.config.Discord.IDSalonServer.CreateVoc){
-            const vocal_name =`Vocal de ${newState.member.user.username}`
-            newState.guild.channels.create(vocal_name,{
-                type:'GUILD_VOICE',
-                parent: client.config.Discord.IDCategorie.Vocal,
-                permissionOverwrites: [{ 
-                    id: newState.id,
-                    deny: ['VIEW_CHANNEL'],
-                }]
-            })
-    
-            .then((channel) => {
-                client.database.query('INSERT INTO ' + client.config.MySQL.tables.VocalChannel + ` VALUES(${channel.id},${newState.member.id})`)
-                newState.setChannel(channel)
-                console.log(`${client.Func.LogDate()}Un nouveau Vocal a été créé par ${newState.member.user.username} !`.cyan)
-                const channel_logs = client.channels.cache.find(x => x.id == client.config.Discord.IDSalonServer.Logs)
-                const Embed = new MessageEmbed()
-                    .setColor('#00FFFF')
-                    .setTitle('Vocals Manager')
-                    .setDescription(`Le salon ${vocal_name} a été créé !`)
-                    .setTimestamp()
-                channel_logs.send({embeds: [Embed]})
-            })
-        }
+	async execute(oldState, newState, client) {
+        if (newState.channelId !== client.config.Discord.IDSalonServer.CreateVoc) return;
+
+        const vocal_name = `Vocal de ${newState.member.user.username}`;
+        const channel = await newState.guild.channels.create({
+            name: vocal_name,
+            type: ChannelType.GuildVoice,
+            parent: client.config.Discord.IDCategorie.Vocal,
+            permissionOverwrites: [{
+                id: newState.id,
+                deny: [PermissionFlagsBits.ViewChannel],
+            }]
+        });
+
+        await client.database.query('INSERT INTO ' + client.config.MySQL.tables.VocalChannel + ' VALUES(?, ?)',
+            [channel.id, newState.member.id]);
+        await newState.setChannel(channel);
+        console.log(`${client.Func.LogDate()}Un nouveau Vocal a été créé par ${newState.member.user.username} !`.cyan);
+        client.Func.SendLog('Vocals Manager', '#00FFFF', `Le salon ${vocal_name} a été créé !`);
 	},
 };

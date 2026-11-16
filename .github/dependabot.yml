@@ -1,0 +1,19 @@
+# Propose chaque semaine des pull requests de mise a jour (dependances npm,
+# image Node du Dockerfile, actions GitHub). Fusionner une PR sur master la deploie.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor:
+        update-types: [minor, patch]
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

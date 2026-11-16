@@ -7,16 +7,14 @@ module.exports = (directory, client) => {
     const buttonsfoldersPath = path.join(directory, 'buttons');
     const buttonsfolders = fs.readdirSync(buttonsfoldersPath);
 
-    for (buttonsfolder of buttonsfolders){
+    for (const buttonsfolder of buttonsfolders) {
         const buttonsPath = path.join(buttonsfoldersPath, buttonsfolder);
         const buttonFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'));
 
         for (const file of buttonFiles) {
-
             const filePath = path.join(buttonsPath, file);
             const button = require(filePath);
             client.buttons.set(button.name, button);
-
         }
     }
-}
+};
