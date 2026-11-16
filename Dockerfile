@@ -1,5 +1,5 @@
 # Image du bot Purple Octopus. Construite et deployee par deploy.sh.
-FROM node:22-alpine
+FROM node:26-alpine
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 # --ignore-scripts : aucun script d'installation de dependance n'est execute.

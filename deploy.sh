@@ -4,7 +4,7 @@
 #     Aucun. Lance par le workflow Deploy sur le runner "purple-prod" (serveur
 #     ideapad), a la racine du depot. NOMAD_TOKEN vient du fichier .env du runner.
 # What it does
-#     Construit l'image du bot avec la derniere image Node 22 (--pull, pour
+#     Construit l'image du bot avec la derniere image Node 26 (--pull, pour
 #     recuperer ses correctifs de securite), l'etiquette avec le hash du commit
 #     et la date, la pousse dans le registre local, puis relance le job Nomad
 #     avec cette etiquette. La commande nomad attend la fin du deploiement ;
